@@ -1,0 +1,17 @@
+﻿[
+  {
+    "$type": "eden.Game.Worlds.StaticTile, eden.Game",
+    "file": "World/Tiles/grassTile.png",
+    "solid": false
+  },
+  {
+    "$type": "eden.Game.Worlds.AnimatedTile, eden.Game",
+    "frames": [
+      "World/Tiles/dirtTile.png",
+      "World/Tiles/grassTile.png",
+      "World/Tiles/nullTile.png"
+    ],
+    "speed": 500,
+    "solid": true
+  }
+]

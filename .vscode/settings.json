@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.world": "json",
+        "*.atlas": "json"
+    }
+}

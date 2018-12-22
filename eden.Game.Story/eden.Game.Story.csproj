@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\eden.Game.props" />
+  <PropertyGroup Label="Project">
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyTitle>eden.Game.Story</AssemblyTitle>
+    <Description>Eden's Story</Description>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="eden.Game.Story.csproj" />
+    <EmbeddedResource Remove="obj/**" />
+    <EmbeddedResource Remove="bin/**" />
+  </ItemGroup>
+</Project>

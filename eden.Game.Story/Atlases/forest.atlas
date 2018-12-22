@@ -1,0 +1,23 @@
+[
+  {
+    "$type": "eden.Game.Worlds.StaticTile, eden.Game",
+    "File": "Atlases/Forest/Dirt.png",
+    "solid": false
+  },
+  {
+    "$type": "eden.Game.Worlds.StaticTile, eden.Game",
+    "File": "Atlases/Forest/Grass.png",
+    "solid": false
+  },
+  {
+    "$type": "eden.Game.Worlds.AnimatedTile, eden.Game",
+    "frames": [
+      "Atlases/Forest/Water0.png",
+      "Atlases/Forest/Water1.png",
+      "Atlases/Forest/Water2.png",
+      "Atlases/Forest/Water3.png"
+    ],
+    "speed": 500,
+    "solid": true
+  }
+]

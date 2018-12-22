@@ -1,0 +1,10 @@
+<!-- Contains required properties for osu!framework projects. -->
+<Project>
+  <PropertyGroup Label="C#">
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Project">
+    <Company>Symcol</Company>
+    <Copyright>Symcol 2017-2018</Copyright>
+  </PropertyGroup>
+</Project>
