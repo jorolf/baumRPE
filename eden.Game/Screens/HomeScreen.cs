@@ -5,8 +5,8 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics.UserInterface;
-using OpenTK;
-using OpenTK.Graphics;
+using osuTK;
+using osuTK.Graphics;
 
 namespace eden.Game.Screens
 {

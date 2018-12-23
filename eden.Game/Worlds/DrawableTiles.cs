@@ -6,9 +6,9 @@ using osu.Framework.Graphics.OpenGL.Vertices;
 using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Shaders;
 using osu.Framework.Timing;
-using OpenTK;
-using OpenTK.Graphics.ES11;
-using PrimitiveType = OpenTK.Graphics.ES30.PrimitiveType;
+using osuTK;
+using osuTK.Graphics.ES11;
+using PrimitiveType = osuTK.Graphics.ES30.PrimitiveType;
 
 namespace eden.Game.Worlds
 {

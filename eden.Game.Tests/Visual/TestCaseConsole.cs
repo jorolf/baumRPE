@@ -3,8 +3,8 @@ using eden.Game.Overlays;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Logging;
 using osu.Framework.Testing;
-using OpenTK;
-using OpenTK.Graphics;
+using osuTK;
+using osuTK.Graphics;
 
 namespace eden.Game.Tests.Visual
 {

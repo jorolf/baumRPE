@@ -12,7 +12,7 @@ namespace eden.Game.Screens.MapEditor
 {
     public class GameObjectWindow : EdenWindow
     {
-        private Dropdown<Tile> tileDropdown;
+        private Dropdown<string> tileDropdown;
 
         private GameObject gameObject;
 
@@ -33,7 +33,7 @@ namespace eden.Game.Screens.MapEditor
 
                 tileAtlas = value;
 
-                tileDropdown.Items = tileAtlas.Select((tile, i) => new KeyValuePair<string, Tile>($"{i}: {tile.GetTexture(0).AssetName}", tile));
+                tileDropdown.Items = tileAtlas.Select((tile, i) => $"{i}: {tile.GetTexture(0).AssetName}");
             }
         }
 
@@ -47,7 +47,7 @@ namespace eden.Game.Screens.MapEditor
                 Width = 200,
                 Children = new Drawable[]
                 {
-                    tileDropdown = new BasicDropdown<Tile>(),
+                    tileDropdown = new BasicDropdown<string>(),
                     new Button
                     {
                         Text = "Remove",

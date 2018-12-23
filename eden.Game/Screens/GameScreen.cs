@@ -4,7 +4,7 @@ using eden.Game.Worlds;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Input.Events;
-using OpenTK.Input;
+using osuTK.Input;
 
 namespace eden.Game.Screens
 {

@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using eden.Game.Worlds;
+﻿using eden.Game.Worlds;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.UserInterface;
-using OpenTK;
+using osuTK;
 
 namespace eden.Game.Screens.MapEditor.MapWindows
 {
@@ -15,6 +14,7 @@ namespace eden.Game.Screens.MapEditor.MapWindows
         private Story story;
         private NewTileAtlasWindow newTileAtlasWindow;
         public const string WORLD_EXTENSION = ".world";
+        private const string select = "Select a tile atlas", create = "Create a tile atlas";
 
         public NewTileAtlasWindow NewTileAtlasWindow
         {
@@ -22,7 +22,7 @@ namespace eden.Game.Screens.MapEditor.MapWindows
             set
             {
                 newTileAtlasWindow = value;
-                newTileAtlasWindow.OnSubmit += s => { tileAtlasDropdown.AddDropdownItem(s, s); };
+                newTileAtlasWindow.OnSubmit += s => tileAtlasDropdown.AddDropdownItem(s);
             }
         }
 
@@ -63,22 +63,22 @@ namespace eden.Game.Screens.MapEditor.MapWindows
                 }),
                 new NamedContainer("Tile Atlas: ", tileAtlasDropdown = new BasicDropdown<string>
                 {
-                    Items = loaderStory?.AtlasFiles.ToDictionary(file =>file),
+                    Items = loaderStory?.AtlasFiles,
                     RelativeSizeAxes = Axes.X
                 }),
             };
 
             Add(textBoxContainer);
 
-            tileAtlasDropdown.AddDropdownItem("Select a tile atlas", "SELECT");
-            tileAtlasDropdown.AddDropdownItem("Create new tile atlas", "CREATE");
-            tileAtlasDropdown.Current.Value = "SELECT";
+            tileAtlasDropdown.AddDropdownItem(select);
+            tileAtlasDropdown.AddDropdownItem(create);
+            tileAtlasDropdown.Current.Value = select;
             tileAtlasDropdown.Current.ValueChanged += value =>
             {
-                if (value == "CREATE")
+                if (value == create)
                 {
                     NewTileAtlasWindow?.Show();
-                    tileAtlasDropdown.Current.Value = "SELECT";
+                    tileAtlasDropdown.Current.Value = select;
                 }
             };
         }
@@ -101,9 +101,9 @@ namespace eden.Game.Screens.MapEditor.MapWindows
         protected override bool ValuesValid()
         {
             return !string.IsNullOrEmpty(filenameBox.Text)
-                   && int.TryParse(widthBox.Text, out var _)
-                   && int.TryParse(heightBox.Text, out var _)
-                   && tileAtlasDropdown.Current != "SELECT"
+                   && int.TryParse(widthBox.Text, out _)
+                   && int.TryParse(heightBox.Text, out _)
+                   && tileAtlasDropdown.Current != select
                    && !story.WorldFiles.Contains(createFilename(filenameBox.Text));
         }
 
@@ -112,7 +112,7 @@ namespace eden.Game.Screens.MapEditor.MapWindows
             filenameBox.Text = string.Empty;
             widthBox.Text = string.Empty;
             heightBox.Text = string.Empty;
-            tileAtlasDropdown.Current.Value = "SELECT";
+            tileAtlasDropdown.Current.Value = select;
         }
 
         private string createFilename(string filename)

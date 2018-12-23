@@ -5,7 +5,7 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.UserInterface;
-using OpenTK;
+using osuTK;
 
 namespace eden.Game.Screens.MapEditor.MapWindows
 {
@@ -32,7 +32,7 @@ namespace eden.Game.Screens.MapEditor.MapWindows
                     new NamedContainer("Tile atlas", worldDropdown = new BasicDropdown<string>
                     {
                         RelativeSizeAxes = Axes.X,
-                        Items = story.AtlasFiles.ToDictionary(s => s)
+                        Items = story.AtlasFiles
                     })
                 },
             });
@@ -40,7 +40,7 @@ namespace eden.Game.Screens.MapEditor.MapWindows
 
         public override void Show()
         {
-            worldDropdown.Items = story.AtlasFiles.ToDictionary(s => s);
+            worldDropdown.Items = story.AtlasFiles;
             base.Show();
         }
 

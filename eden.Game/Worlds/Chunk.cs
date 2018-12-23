@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
-using OpenTK;
+using osuTK;
 
 namespace eden.Game.Worlds
 {

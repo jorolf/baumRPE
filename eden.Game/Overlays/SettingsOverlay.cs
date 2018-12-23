@@ -7,8 +7,8 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Platform;
-using OpenTK;
-using OpenTK.Graphics;
+using osuTK;
+using osuTK.Graphics;
 
 namespace eden.Game.Overlays
 {
@@ -70,7 +70,7 @@ namespace eden.Game.Overlays
                     Origin = Anchor.BottomCentre,
                     Position = new Vector2(0, -100),
                     Width = 80,
-                    Items = Enum.GetValues(typeof(FrameSync)).Cast<FrameSync>().ToDictionary(fs => fs.ToString()),
+                    Items = Enum.GetValues(typeof(FrameSync)).Cast<FrameSync>(),
                 }
             });
 

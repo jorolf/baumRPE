@@ -1,4 +1,4 @@
-using OpenTK;
+using osuTK;
 
 namespace eden.Game.Gameplay.Spells.Attributes
 {

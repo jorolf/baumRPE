@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using eden.Game.IO;
+﻿using eden.Game.IO;
 using eden.Game.Worlds;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
@@ -24,7 +23,7 @@ namespace eden.Game.Screens.MapEditor.MapWindows
             Add(new NamedContainer("World: ", worldDropdown = new BasicDropdown<string>
             {
                 RelativeSizeAxes = Axes.X,
-                Items = story.WorldFiles.ToDictionary(s => s)
+                Items = story.WorldFiles
             })
             {
                 RelativeSizeAxes = Axes.None,
@@ -36,7 +35,7 @@ namespace eden.Game.Screens.MapEditor.MapWindows
         {
             base.Show();
 
-            worldDropdown.Items = story.WorldFiles.ToDictionary(s => s);
+            worldDropdown.Items = story.WorldFiles;
         }
 
         protected override World SubmitParam

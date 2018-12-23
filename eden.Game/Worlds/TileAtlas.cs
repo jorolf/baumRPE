@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using eden.Game.IO;
 using Newtonsoft.Json;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 
 namespace eden.Game.Worlds

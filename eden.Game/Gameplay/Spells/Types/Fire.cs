@@ -1,4 +1,4 @@
-using OpenTK.Graphics;
+using osuTK.Graphics;
 
 namespace eden.Game.Gameplay.Spells.Types
 {

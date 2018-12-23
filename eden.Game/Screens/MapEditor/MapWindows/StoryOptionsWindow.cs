@@ -34,7 +34,7 @@ namespace eden.Game.Screens.MapEditor.MapWindows
                         new NamedContainer("Spawn World", spawnWorldDropdown = new BasicDropdown<string>
                         {
                             RelativeSizeAxes = Axes.X,
-                            Items = story.WorldFiles.ToDictionary(s => s)
+                            Items = story.WorldFiles
                         }),
                         new NamedContainer("Story Name", storyNameTextBox = new TextBox
                         {

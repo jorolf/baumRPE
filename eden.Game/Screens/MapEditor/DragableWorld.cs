@@ -1,12 +1,12 @@
 ﻿using eden.Game.Worlds;
 using osu.Framework.Graphics;
-using OpenTK.Input;
+using osuTK.Input;
 using System;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input.Events;
-using OpenTK;
+using osuTK;
 
 namespace eden.Game.Screens.MapEditor
 {

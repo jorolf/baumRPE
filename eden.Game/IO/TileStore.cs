@@ -1,6 +1,6 @@
 ﻿using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
-using OpenTK.Graphics.ES30;
+using osuTK.Graphics.ES30;
 
 namespace eden.Game.IO
 {

@@ -1,7 +1,7 @@
 ﻿using eden.Game.Worlds;
 using Newtonsoft.Json;
 using osu.Framework.Graphics.Containers;
-using OpenTK;
+using osuTK;
 
 namespace eden.Game.Gameplay
 {

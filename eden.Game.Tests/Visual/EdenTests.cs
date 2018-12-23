@@ -1,7 +1,7 @@
 ﻿using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Testing;
-using OpenTK.Graphics;
+using osuTK.Graphics;
 
 namespace eden.Game.Tests.Visual
 {

@@ -16,9 +16,9 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input.Events;
 using osu.Framework.IO.File;
 using osu.Framework.Platform;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Input;
+using osuTK;
+using osuTK.Graphics;
+using osuTK.Input;
 
 namespace eden.Game.Screens
 {

@@ -5,9 +5,9 @@ using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input;
 using osu.Framework.Input.Events;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Input;
+using osuTK;
+using osuTK.Graphics;
+using osuTK.Input;
 
 namespace eden.Game.Gameplay.Characters.Players
 {

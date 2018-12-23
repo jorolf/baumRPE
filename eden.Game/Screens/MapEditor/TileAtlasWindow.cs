@@ -11,8 +11,8 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.UserInterface;
-using OpenTK;
-using OpenTK.Graphics;
+using osuTK;
+using osuTK.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Input.Events;
 
@@ -215,6 +215,12 @@ namespace eden.Game.Screens.MapEditor
             private bool remove;
             protected Story Story;
 
+            private static readonly Dictionary<string, Func<Tile>> tileTypes = new Dictionary<string, Func<Tile>>
+            {
+                { "Static", () => new StaticTile() },
+                { "Animated", () => new AnimatedTile() }
+            };
+
             protected TileProperties(T tile)
             {
                 Tile = tile;
@@ -226,21 +232,17 @@ namespace eden.Game.Screens.MapEditor
                 });
                 solidCheckbox.Current.Value = tile.Solid;
 
-                BasicDropdown<Func<Tile>> dropdown;
-                Add(dropdown = new BasicDropdown<Func<Tile>>
+                BasicDropdown<string> dropdown;
+                Add(dropdown = new BasicDropdown<string>
                 {
                     RelativeSizeAxes = Axes.X,
-                    Items = new Dictionary<string, Func<Tile>>
-                    {
-                        { "Static", () => new StaticTile() },
-                        { "Animated", () => new AnimatedTile() }
-                    }
+                    Items = tileTypes.Keys.AsEnumerable()
                 });
-                dropdown.Current.Value = dropdown.Items.First(pair => (typeof(T) == typeof(AnimatedTile) ? "Animated" : "Static") == pair.Key).Value;
+                dropdown.Current.Value = dropdown.Items.First(pair => (typeof(T) == typeof(AnimatedTile) ? "Animated" : "Static") == pair);
                 dropdown.Current.ValueChanged += type =>
                 {
                     Tile.Solid = solidCheckbox.Current;
-                    ChangeType(type());
+                    ChangeType(tileTypes[type]());
                 };
 
                 Button saveButton;
@@ -311,7 +313,7 @@ namespace eden.Game.Screens.MapEditor
                 Add(spriteDropdown = new BasicDropdown<string>
                 {
                     RelativeSizeAxes = Axes.X,
-                    Items = Story.ResourceFiles.ToDictionary(s => s)
+                    Items = Story.ResourceFiles
                 });
                 spriteDropdown.Current.Value = Tile.File;
             }
@@ -398,7 +400,7 @@ namespace eden.Game.Screens.MapEditor
                     spriteDropdown = new BasicDropdown<string>
                     {
                         RelativeSizeAxes = Axes.X,
-                        Items = Story.ResourceFiles.ToDictionary(s => s)
+                        Items = Story.ResourceFiles
                     }
                 });
                 speedTextBox.Current.Value = Tile.Speed.ToString(CultureInfo.CurrentCulture);
@@ -451,6 +453,19 @@ namespace eden.Game.Screens.MapEditor
             }
         }
 
-        public Bindable<Tile> Current { get; } = new Bindable<Tile>();
+        private readonly Bindable<Tile> current = new Bindable<Tile>();
+
+        public Bindable<Tile> Current
+        {
+            get => current;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                current.UnbindBindings();
+                current.BindTo(value);
+            }
+        }
     }
 }

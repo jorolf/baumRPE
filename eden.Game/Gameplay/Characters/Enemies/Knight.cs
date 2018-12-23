@@ -3,8 +3,8 @@ using eden.Game.Gameplay.Characters.Players;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using OpenTK;
-using OpenTK.Graphics;
+using osuTK;
+using osuTK.Graphics;
 
 namespace eden.Game.Gameplay.Characters.Enemies
 {

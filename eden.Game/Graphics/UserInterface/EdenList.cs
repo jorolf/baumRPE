@@ -4,7 +4,7 @@ using osu.Framework.Configuration;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
-using OpenTK.Graphics;
+using osuTK.Graphics;
 
 namespace eden.Game.Graphics.UserInterface
 {
@@ -37,7 +37,20 @@ namespace eden.Game.Graphics.UserInterface
             selectedItem.BackgroundColour = SelectedColour;
         }
 
-        public Bindable<MenuItem> Current { get; } = new Bindable<MenuItem>();
+        private readonly Bindable<MenuItem> current = new Bindable<MenuItem>();
+
+        public Bindable<MenuItem> Current
+        {
+            get => current;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                current.UnbindBindings();
+                current.BindTo(value);
+            }
+        }
 
         private class EdenListItem : DrawableMenuItem
         {
