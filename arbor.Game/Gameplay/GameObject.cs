@@ -17,7 +17,7 @@ namespace arbor.Game.Gameplay
         /// <summary>
         /// The position of this object based on the tile system
         /// </summary>
-        [JsonProperty("position")]
+        //[JsonProperty("position")]
         public Vector2 WorldPosition
         {
             get => Position / Chunk.TILE_SIZE;

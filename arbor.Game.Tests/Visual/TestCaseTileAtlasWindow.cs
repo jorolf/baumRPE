@@ -34,9 +34,10 @@ namespace arbor.Game.Tests.Visual
         private void load(JsonStore jsonStore, TileStore textureStore)
         {
             TileAtlas tileAtlas = new TileAtlas(textureStore, jsonStore, "Json/tiles.json");
-            Add(new TileAtlasWindow(tileAtlas)
+            Add(new TileAtlasWindow
             {
-                State = Visibility.Visible
+                State = Visibility.Visible,
+                TileAtlas = tileAtlas,
             });
         }
     }

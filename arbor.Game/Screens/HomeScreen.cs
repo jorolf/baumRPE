@@ -18,7 +18,7 @@ namespace arbor.Game.Screens
         private SettingsOverlay settings;
 
         [BackgroundDependencyLoader]
-        private void load(TextureStore textures, ArborGame game)
+        private void load(TextureStore textures, ArborGame game, Story story)
         {
             Children = new Drawable[]
             {
@@ -71,7 +71,7 @@ namespace arbor.Game.Screens
                             Anchor = Anchor.TopLeft,
                             Origin = Anchor.TopLeft,
                             TextSize = 60,
-                            Text = "Welcome to the \"Our little Arbor\" game!"
+                            Text = $"Welcome to the \"{story.Name}\" game!"
                         },
                     }
                 }

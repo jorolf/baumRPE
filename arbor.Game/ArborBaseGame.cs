@@ -44,7 +44,7 @@ namespace arbor.Game
 
             base.SetHost(host);
 
-            Window.Title = @"Our little Arbor";
+            Window.Title = @"ArborEngine";
         }
 
         protected override void LoadComplete()
