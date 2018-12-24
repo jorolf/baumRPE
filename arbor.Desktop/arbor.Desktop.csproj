@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\arbor.Game.props" />
+  <PropertyGroup Label="Project">
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyTitle>arbor.Desktop</AssemblyTitle>
+    <Description>Arbor's executable</Description>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ApplicationIcon />
+    <OutputType>WinExe</OutputType>
+    <StartupObject>arbor.Desktop.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\arbor.Game\arbor.Game.csproj" />
+  </ItemGroup>
+</Project>

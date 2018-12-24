@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/eden.Desktop/eden.Desktop.csproj"
+                "${workspaceFolder}/arbor.Desktop/arbor.Desktop.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

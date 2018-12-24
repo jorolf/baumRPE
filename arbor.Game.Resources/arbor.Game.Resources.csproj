@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\arbor.Game.props" />
+  <PropertyGroup Label="Project">
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyTitle>arbor.Game.Resources</AssemblyTitle>
+    <Description>Arbor's Resources</Description>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Json\**\*" />
+    <EmbeddedResource Include="Textures\**\*" />
+  </ItemGroup>
+</Project>

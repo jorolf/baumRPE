@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\arbor.Game.props" />
+  <PropertyGroup Label="Project">
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyTitle>arbor.Game</AssemblyTitle>
+    <Description>Arbor Engine</Description>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ppy.osu.Framework" Version="2018.1221.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\arbor.Game.Resources\arbor.Game.Resources.csproj" />
+    <ProjectReference Include="..\arbor.Game.Story\arbor.Game.Story.csproj" />
+  </ItemGroup>
+</Project>

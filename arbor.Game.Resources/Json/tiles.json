@@ -1,0 +1,17 @@
+﻿[
+  {
+    "$type": "arbor.Game.Worlds.StaticTile, arbor.Game",
+    "file": "World/Tiles/grassTile.png",
+    "solid": false
+  },
+  {
+    "$type": "arbor.Game.Worlds.AnimatedTile, arbor.Game",
+    "frames": [
+      "World/Tiles/dirtTile.png",
+      "World/Tiles/grassTile.png",
+      "World/Tiles/nullTile.png"
+    ],
+    "speed": 500,
+    "solid": true
+  }
+]

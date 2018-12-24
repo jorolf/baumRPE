@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\arbor.Game.props" />
+  <PropertyGroup Label="Project">
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyTitle>arbor.Game.Story</AssemblyTitle>
+    <Description>Arbor's Story</Description>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="arbor.Game.Story.csproj" />
+    <EmbeddedResource Remove="obj/**" />
+    <EmbeddedResource Remove="bin/**" />
+  </ItemGroup>
+</Project>
