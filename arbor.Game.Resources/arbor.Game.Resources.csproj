@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\arbor.Game.props" />
   <PropertyGroup Label="Project">
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyTitle>arbor.Game.Resources</AssemblyTitle>

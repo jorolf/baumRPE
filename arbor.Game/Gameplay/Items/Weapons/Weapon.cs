@@ -14,7 +14,8 @@
         /// </summary>
         public readonly Character ParentCharacter;
 
-        protected Weapon(Character character) : base(ItemType.Weapon)
+        protected Weapon(Character character)
+            : base(ItemType.Weapon)
         {
             ParentCharacter = character;
         }

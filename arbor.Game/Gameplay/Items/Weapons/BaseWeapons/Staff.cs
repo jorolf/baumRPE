@@ -9,7 +9,8 @@ namespace arbor.Game.Gameplay.Items.Weapons.BaseWeapons
         /// </summary>
         public float StabLength { get; set; }
 
-        protected Staff(Character character) : base(character)
+        protected Staff(Character character)
+            : base(character)
         {
         }
     }

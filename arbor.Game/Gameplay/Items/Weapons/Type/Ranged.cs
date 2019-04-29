@@ -2,7 +2,8 @@
 {
     public abstract class Ranged : Weapon
     {
-        protected Ranged(Character character) : base(character)
+        protected Ranged(Character character)
+            : base(character)
         {
         }
     }

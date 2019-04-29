@@ -19,7 +19,7 @@ namespace arbor.Game.Gameplay
                     Anchor = Anchor.TopLeft,
                     Origin = Anchor.TopLeft,
                     Text = "Health Value Here",
-                    TextSize = 40,
+                    Font = FontUsage.Default.With(size: 40),
                     Colour = Color4.Red,
                 },
                 Mana = new SpriteText
@@ -27,7 +27,7 @@ namespace arbor.Game.Gameplay
                     Anchor = Anchor.TopRight,
                     Origin = Anchor.TopRight,
                     Text = "Mana Values Here",
-                    TextSize = 40,
+                    Font = FontUsage.Default.With(size: 40),
                     Colour = Color4.Blue,
                 }
             };

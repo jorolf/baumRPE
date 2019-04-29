@@ -42,8 +42,8 @@ namespace arbor.Game.Screens.MapEditor.MapWindows
         {
             get
             {
-                World world = jsonStore.Deserialize<World>(worldDropdown.Current);
-                world.WorldName = worldDropdown.Current;
+                World world = jsonStore.Deserialize<World>(worldDropdown.Current.Value);
+                world.WorldName = worldDropdown.Current.Value;
                 return world;
             }
         }
@@ -51,6 +51,7 @@ namespace arbor.Game.Screens.MapEditor.MapWindows
         protected override bool ValuesValid() => true;
 
         protected override void ResetValues()
-        { }
+        {
+        }
     }
 }

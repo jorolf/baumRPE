@@ -77,7 +77,7 @@ namespace arbor.Game.Gameplay.Characters.Enemies
         private float playerDirectionAngle(Vector2 playerPos, Vector2 thisPos)
         {
             //Returns a Radian
-            float angle = (float) Math.Atan2(playerPos.Y - thisPos.Y, playerPos.X - thisPos.X);
+            float angle = (float)Math.Atan2(playerPos.Y - thisPos.Y, playerPos.X - thisPos.X);
             angle = MathHelper.RadiansToDegrees(angle) + 90;
 
             return angle;

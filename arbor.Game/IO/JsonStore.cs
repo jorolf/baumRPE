@@ -9,7 +9,7 @@ namespace arbor.Game.IO
 
         protected JsonStore()
         {
-            settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
+            settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
         }
 
         /// <summary>
@@ -24,6 +24,7 @@ namespace arbor.Game.IO
             var stream = GetFileStream(filename, FileAccess.Read);
             if (stream == null)
                 throw new FileNotFoundException($"The file {filename} does not exist!", filename);
+
             using (var reader = new StreamReader(stream))
                 return JsonConvert.DeserializeObject<T>(reader.ReadToEnd(), useType ? settings : null);
         }
@@ -51,6 +52,7 @@ namespace arbor.Game.IO
             var stream = GetFileStream(filename, FileAccess.Read);
             if (stream == null)
                 throw new FileNotFoundException($"The file {filename} does not exist!", filename);
+
             using (var reader = new StreamReader(stream))
                 JsonConvert.PopulateObject(reader.ReadToEnd(), obj, useType ? settings : null);
         }

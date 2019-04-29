@@ -51,7 +51,8 @@ namespace arbor.Game.Worlds
         private GameObject[] objects
         {
             get => objectContainer.Children.ToArray();
-            set {
+            set
+            {
                 objectContainer.Clear();
                 objectContainer.AddRange(value);
             }

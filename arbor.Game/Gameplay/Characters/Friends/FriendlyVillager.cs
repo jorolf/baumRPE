@@ -4,19 +4,10 @@ namespace arbor.Game.Gameplay.Characters.Friends
 {
     public class FriendlyVillager : Mage
     {
-        public override float MageSkill
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override float MageSkill => throw new NotImplementedException();
 
-        public override float MaxHealth
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override float MaxHealth => throw new NotImplementedException();
 
-        public override int Team
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override int Team => throw new NotImplementedException();
     }
 }

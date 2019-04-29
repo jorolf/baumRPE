@@ -14,7 +14,7 @@ namespace arbor.Game.Graphics.Containers
 
         protected override bool OnMouseMove(MouseMoveEvent mouseMoveEvent)
         {
-            if(dragging)
+            if (dragging)
                 Position += mouseMoveEvent.Delta;
             return dragging;
         }

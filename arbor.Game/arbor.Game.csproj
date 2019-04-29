@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\arbor.Game.props" />
   <PropertyGroup Label="Project">
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyTitle>arbor.Game</AssemblyTitle>
@@ -8,7 +7,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ppy.osu.Framework" Version="2018.1221.0" />
+    <PackageReference Include="ppy.osu.Framework" Version="2019.427.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\arbor.Game.Resources\arbor.Game.Resources.csproj" />

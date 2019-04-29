@@ -30,7 +30,7 @@ namespace arbor.Game.Input
                     {
                         // ReSharper disable once PossibleNullReferenceException
                         var binding = reader.ReadLine().Split('=');
-                        list.Add(new KeyBinding((InputKey) Enum.Parse(typeof(InputKey), binding[1]), Enum.Parse(typeof(ArborKeyBindings), binding[0])));
+                        list.Add(new KeyBinding((InputKey)Enum.Parse(typeof(InputKey), binding[1]), Enum.Parse(typeof(ArborKeyBindings), binding[0])));
                     }
 
                     return list;
@@ -45,7 +45,8 @@ namespace arbor.Game.Input
                     reader.WriteLine(binding.Action + "=" + binding.KeyCombination.Keys.First());
         }
 
-        public GlobalKeyBindingInputManager(Storage storage) : base(SimultaneousBindingMode.All)
+        public GlobalKeyBindingInputManager(Storage storage)
+            : base(SimultaneousBindingMode.All)
         {
             this.storage = storage;
         }

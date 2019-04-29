@@ -12,7 +12,7 @@ namespace arbor.Game.Tests.Visual
 {
     public class TestCaseTileAtlas : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] {typeof(TileAtlas), typeof(DrawableTile)};
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(TileAtlas), typeof(DrawableTile) };
 
         private const string world = @"Json/tiles.json";
 

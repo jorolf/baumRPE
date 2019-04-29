@@ -73,9 +73,9 @@ namespace arbor.Game.Screens.MapEditor.MapWindows
             tileAtlasDropdown.AddDropdownItem(select);
             tileAtlasDropdown.AddDropdownItem(create);
             tileAtlasDropdown.Current.Value = select;
-            tileAtlasDropdown.Current.ValueChanged += value =>
+            tileAtlasDropdown.Current.ValueChanged += e =>
             {
-                if (value == create)
+                if (e.NewValue == create)
                 {
                     NewTileAtlasWindow?.Show();
                     tileAtlasDropdown.Current.Value = select;
@@ -89,7 +89,7 @@ namespace arbor.Game.Screens.MapEditor.MapWindows
             {
                 World world = new World
                 {
-                    AtlasPath = tileAtlasDropdown.Current,
+                    AtlasPath = tileAtlasDropdown.Current.Value,
                     WorldName = filenameBox.Text + WORLD_EXTENSION
                 };
                 world.ResizeWorld(int.Parse(widthBox.Text), int.Parse(heightBox.Text));
@@ -103,7 +103,7 @@ namespace arbor.Game.Screens.MapEditor.MapWindows
             return !string.IsNullOrEmpty(filenameBox.Text)
                    && int.TryParse(widthBox.Text, out _)
                    && int.TryParse(heightBox.Text, out _)
-                   && tileAtlasDropdown.Current != select
+                   && tileAtlasDropdown.Current.Value != select
                    && !story.WorldFiles.Contains(createFilename(filenameBox.Text));
         }
 

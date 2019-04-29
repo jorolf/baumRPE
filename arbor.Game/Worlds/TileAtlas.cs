@@ -64,7 +64,6 @@ namespace arbor.Game.Worlds
 
         private List<Texture> frameTextures;
 
-
         public override void LoadTextures(TextureStore textures)
         {
             frameTextures = Frames.Select(textures.Get).ToList();
@@ -72,7 +71,7 @@ namespace arbor.Game.Worlds
 
         public override Texture GetTexture(double time)
         {
-            return frameTextures[(int) (time / Speed) % frameTextures.Count];
+            return frameTextures[(int)(time / Speed) % frameTextures.Count];
         }
     }
 

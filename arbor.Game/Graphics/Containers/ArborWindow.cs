@@ -46,7 +46,7 @@ namespace arbor.Game.Graphics.Containers
                 content = new Container
                 {
                     AutoSizeAxes = Axes.Both,
-                    Padding = new MarginPadding(5) {Top = 20}
+                    Padding = new MarginPadding(5) { Top = 20 }
                 },
                 new DragBar
                 {
@@ -70,8 +70,8 @@ namespace arbor.Game.Graphics.Containers
                 },
                 windowTitle = new SpriteText
                 {
-                    TextSize = 20,
-                    Margin = new MarginPadding {Left = 3}
+                    Font = FontUsage.Default.With(size: 20),
+                    Margin = new MarginPadding { Left = 3 }
                 }
             });
         }

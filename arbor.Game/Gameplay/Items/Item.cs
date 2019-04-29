@@ -53,7 +53,7 @@ namespace arbor.Game.Gameplay.Items
             //TODO: Add to world here
         }
 
-       /// <summary>
+        /// <summary>
         /// adds this item to an inventory and removes it from the world if possible
         /// </summary>
         /// <param name="inventory"></param>
@@ -61,7 +61,7 @@ namespace arbor.Game.Gameplay.Items
         {
             foreach (Item item in inventory.Items)
                 if (item.ItemID == ItemID)
-                    if(item.StackSize < item.MaxStackSize)
+                    if (item.StackSize < item.MaxStackSize)
                     {
                         item.StackSize++;
                         StackSize = item.StackSize;
@@ -84,10 +84,13 @@ namespace arbor.Game.Gameplay.Items
     public enum ItemType
     {
         Weapon,
+
         //Currently will be unused until weapon system re-write
         WeaponPart,
+
         //Heal
         Food,
+
         //used for dank ass spells
         Potions,
     }

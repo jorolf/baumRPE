@@ -7,7 +7,7 @@ using arbor.Game.Screens.MapEditor;
 using arbor.Game.Screens.MapEditor.MapWindows;
 using arbor.Game.Worlds;
 using osu.Framework.Allocation;
-using osu.Framework.Configuration;
+using osu.Framework.Bindables;
 using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -16,6 +16,7 @@ using osu.Framework.Graphics.Shapes;
 using osu.Framework.Input.Events;
 using osu.Framework.IO.File;
 using osu.Framework.Platform;
+using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
 using osuTK.Input;
@@ -52,13 +53,16 @@ namespace arbor.Game.Screens
             Default = EditorMode.Tiles,
         };
 
+        [Resolved]
+        private JsonStore jsonStore { get; set; }
+
         [BackgroundDependencyLoader]
-        private void load(Story story, ArborGame game, JsonStore jsonStore)
+        private void load(Story story, ArborGame game)
         {
             this.story = story;
             storage = game.StoryStorage;
 
-            Children = new Drawable[]
+            InternalChildren = new Drawable[]
             {
                 new Box
                 {
@@ -109,21 +113,15 @@ namespace arbor.Game.Screens
                 jsonStore.Serialize(Story.FILENAME, story);
             });
 
-            Add(tileAtlasWindow = new TileAtlasWindow
+            AddInternal(tileAtlasWindow = new TileAtlasWindow
             {
                 State = Visibility.Visible,
                 Anchor = Anchor.BottomLeft,
                 Origin = Anchor.BottomLeft
             });
 
-            Exited += _ =>
-            {
-                jsonStore.Serialize(Story.FILENAME, story);
-                worldField.Save();
-            };
-
             Toolbar toolbar;
-            Add(toolbar = new Toolbar
+            AddInternal(toolbar = new Toolbar
             {
                 RelativeSizeAxes = Axes.X,
                 AutoSizeAxes = Axes.Y,
@@ -137,7 +135,7 @@ namespace arbor.Game.Screens
                 ReloadResources = reloadResources,
                 ResetView = worldContainer.ResetView,
                 ShowStoryOptions = storyOptionsWindow.Show,
-                Exit = Exit,
+                Exit = this.Exit,
             });
             toolbar.CurrentMode.BindTo(mode);
 
@@ -151,9 +149,9 @@ namespace arbor.Game.Screens
                 world.WorldName = story.SpawnWorldFile;
             }
 
-            mode.ValueChanged += newValue =>
+            mode.ValueChanged += e =>
             {
-                switch (newValue)
+                switch (e.NewValue)
                 {
                     case EditorMode.Tiles:
                         tileAtlasWindow.Show();
@@ -162,7 +160,7 @@ namespace arbor.Game.Screens
                         tileAtlasWindow.Hide();
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(newValue), newValue, null);
+                        throw new ArgumentOutOfRangeException(nameof(e.NewValue), e.NewValue, null);
                 }
             };
         }
@@ -171,7 +169,7 @@ namespace arbor.Game.Screens
             where TMapWindow : MapWindow<T>, new()
         {
             TMapWindow window;
-            Add(window = new TMapWindow
+            AddInternal(window = new TMapWindow
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,
@@ -182,7 +180,7 @@ namespace arbor.Game.Screens
 
         protected override bool OnMouseDown(MouseDownEvent mouseDownEvent)
         {
-            switch ((EditorMode)mode)
+            switch (mode.Value)
             {
                 case EditorMode.Tiles:
                     return mouseDownEvent.Button == MouseButton.Left && placeTileAt(mouseDownEvent.MousePosition);
@@ -197,9 +195,9 @@ namespace arbor.Game.Screens
                             chunk.AddObject(gameObject);
                         }
 
-
                         return true;
-                    } else
+                    }
+                    else
                         return base.OnMouseDown(mouseDownEvent);
                 default:
                     return base.OnMouseDown(mouseDownEvent);
@@ -208,7 +206,7 @@ namespace arbor.Game.Screens
 
         protected override bool OnMouseMove(MouseMoveEvent mouseMoveEvent)
         {
-            switch ((EditorMode)mode)
+            switch (mode.Value)
             {
                 case EditorMode.Tiles:
                     return mouseMoveEvent.IsPressed(MouseButton.Left) && placeTileAt(mouseMoveEvent.ScreenSpaceMousePosition);
@@ -222,13 +220,22 @@ namespace arbor.Game.Screens
             Vector2I? tilePosNull = worldContainer.GetTileAt(screenSpaceMousePos);
 
             if (!tilePosNull.HasValue) return false;
+
             Vector2I tilePos = tilePosNull.Value;
 
             int index = tileAtlasWindow.SelectedTileIndex;
-            if(index != -1)
+            if (index != -1)
                 world.GetChunk(tilePos.X / Chunk.TILES_PER_CHUNK, tilePos.Y / Chunk.TILES_PER_CHUNK).Tiles[tilePos.X % Chunk.TILES_PER_CHUNK, tilePos.Y % Chunk.TILES_PER_CHUNK] = tileAtlasWindow.SelectedTileIndex;
 
             return true;
+        }
+
+        public override bool OnExiting(IScreen next)
+        {
+            jsonStore.Serialize(Story.FILENAME, story);
+            worldField.Save();
+
+            return base.OnExiting(next);
         }
 
         private void reloadResources()
@@ -242,11 +249,10 @@ namespace arbor.Game.Screens
                 story.SpawnWorldFile = story.WorldFiles.FirstOrDefault();
         }
 
-        private static readonly string[] ignored_dirs =  { "obj", "bin" };
+        private static readonly string[] ignored_dirs = { "obj", "bin" };
 
         private void reloadFile(string file)
         {
-
             switch (FileSafety.PathStandardise(file))
             {
                 case var f when f.EndsWith(".atlas"):

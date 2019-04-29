@@ -4,9 +4,11 @@ using arbor.Game.IO;
 using arbor.Game.Screens;
 using Newtonsoft.Json;
 using osu.Framework.Allocation;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
+using osu.Framework.Screens;
 
 namespace arbor.Game
 {
@@ -18,6 +20,7 @@ namespace arbor.Game
 
         private DependencyContainer dependencies;
         private readonly Story story;
+        private readonly ScreenStack screenStack = new ScreenStack(new HomeScreen());
 
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
             dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
@@ -56,7 +59,7 @@ namespace arbor.Game
         [BackgroundDependencyLoader]
         private void load(GameHost host)
         {
-            if(StoryResources is StorageBackedResourceStore) StoryStorage = new StoryStorage(storyPath, host);
+            if (StoryResources is StorageBackedResourceStore) StoryStorage = new StoryStorage(storyPath, host);
         }
 
         protected override void LoadComplete()
@@ -67,16 +70,18 @@ namespace arbor.Game
             dependencies.Cache(story);
             dependencies.CacheAs(StoryStorage == null
                 ? new ResourceJsonStore(Resources)
-                : (JsonStore) new StorageJsonStore(StoryStorage));
+                : (JsonStore)new StorageJsonStore(StoryStorage));
 
             dependencies.Cache(new TileStore(new TextureLoaderStore(StoryResources)));
             Resources.AddStore(StoryResources);
 
-            var homeScreen = new HomeScreen();
-
-            Add(homeScreen);
-
-            homeScreen.Exited += _ => Scheduler.AddDelayed(Exit, 500);
+            screenStack.RelativeSizeAxes = Axes.Both;
+            Add(screenStack);
+            screenStack.ScreenExited += (oldScreen, newScreen) =>
+            {
+                if (newScreen == null)
+                    Scheduler.AddDelayed(Exit, 500);
+            };
         }
     }
 }

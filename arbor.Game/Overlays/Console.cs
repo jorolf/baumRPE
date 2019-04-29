@@ -85,7 +85,7 @@ namespace arbor.Game.Overlays
                     RelativeSizeAxes = Axes.X,
                     Height = height - 20,
 
-                    Child = consoleLog = new TextFlowContainer(text => text.TextSize = 20)
+                    Child = consoleLog = new TextFlowContainer(text => text.Font = text.Font.With(size: 20))
                     {
                         RelativeSizeAxes = Axes.X,
                         AutoSizeAxes = Axes.Y
@@ -148,13 +148,13 @@ namespace arbor.Game.Overlays
         protected override void PopIn()
         {
             content.FadeIn(toggle_time)
-                .MoveTo(Vector2.Zero, toggle_time);
+                   .MoveTo(Vector2.Zero, toggle_time);
         }
 
         protected override void PopOut()
         {
             content.FadeOut(toggle_time)
-                .MoveTo(new Vector2(0, -height), toggle_time);
+                   .MoveTo(new Vector2(0, -height), toggle_time);
         }
 
         public bool OnPressed(ArborKeyBindings action)

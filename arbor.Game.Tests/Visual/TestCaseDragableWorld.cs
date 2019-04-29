@@ -10,12 +10,12 @@ namespace arbor.Game.Tests.Visual
 {
     public class TestCaseDragableWorld : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] {typeof(DragableWorld), typeof(ArborDragContainer)};
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(DragableWorld), typeof(ArborDragContainer) };
 
         public TestCaseDragableWorld()
         {
             World world = new World();
-            world.ResizeWorld(1,1);
+            world.ResizeWorld(1, 1);
 
             Child = new DragableWorld
             {

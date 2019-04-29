@@ -21,7 +21,7 @@ namespace arbor.Game.Screens
         [BackgroundDependencyLoader]
         private void load(Story story, JsonStore jsonStore)
         {
-            Children = new Drawable[]
+            InternalChildren = new Drawable[]
             {
                 jsonStore.Deserialize<World>(story.SpawnWorldFile),
                 new ArborUI
@@ -33,7 +33,6 @@ namespace arbor.Game.Screens
 
         public void Pause()
         {
-
         }
 
         protected override bool OnKeyDown(KeyDownEvent keyDownEvent)

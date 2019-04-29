@@ -7,7 +7,8 @@ namespace arbor.Game.Config
     {
         protected override string Filename => @"arbor.ini";
 
-        public ArborConfigManager(Storage storage) : base(storage)
+        public ArborConfigManager(Storage storage)
+            : base(storage)
         {
         }
 

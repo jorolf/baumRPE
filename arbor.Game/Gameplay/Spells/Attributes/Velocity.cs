@@ -12,7 +12,7 @@ namespace arbor.Game.Gameplay.Spells.Attributes
 
         public void Update(SpellContainer container)
         {
-            container.Position += SpellVelocity * (float) container.Time.Elapsed;
+            container.Position += SpellVelocity * (float)container.Time.Elapsed;
         }
     }
 }

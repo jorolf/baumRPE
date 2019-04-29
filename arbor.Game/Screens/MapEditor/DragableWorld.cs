@@ -10,12 +10,10 @@ using osuTK.Input;
 
 namespace arbor.Game.Screens.MapEditor
 {
-    public class DragableWorld : Container
+    public class DragableWorld : CompositeDrawable
     {
         private readonly Container transformContainer;
         private readonly Box highlightTile;
-
-        protected override Container<Drawable> Content => transformContainer;
 
         private World world;
 
@@ -27,13 +25,13 @@ namespace arbor.Game.Screens.MapEditor
                 if (world == value) return;
 
                 if (world != null)
-                    Remove(world);
+                    transformContainer.Remove(world);
 
                 world = value;
 
                 if (world != null)
                 {
-                    Add(world);
+                    transformContainer.Add(world);
                     ResetView();
                 }
             }
@@ -45,15 +43,14 @@ namespace arbor.Game.Screens.MapEditor
             {
                 AutoSizeAxes = Axes.Both,
                 Anchor = Anchor.Centre,
-                Origin = Anchor.Centre
+                Origin = Anchor.Centre,
+                Child = highlightTile = new Box
+                {
+                    Size = new Vector2(Chunk.TILE_SIZE),
+                    Alpha = 0,
+                    Depth = -1,
+                }
             };
-
-            Add(highlightTile = new Box
-            {
-                Size = new Vector2(Chunk.TILE_SIZE),
-                Alpha = 0,
-                Depth = -1,
-            });
         }
 
         private float zoom = 1;
@@ -76,7 +73,7 @@ namespace arbor.Game.Screens.MapEditor
 
         protected override bool OnMouseMove(MouseMoveEvent mouseMoveEvent)
         {
-            if (GetTileAt(ToScreenSpace(mouseMoveEvent.MousePosition)) is Vector2I tile)
+            if (GetTileAt(mouseMoveEvent.ScreenSpaceMousePosition) is Vector2I tile)
             {
                 highlightTile.Position = new Vector2(tile.X * Chunk.TILE_SIZE, tile.Y * Chunk.TILE_SIZE);
                 highlightTile.Alpha = 0.1f;
@@ -103,7 +100,7 @@ namespace arbor.Game.Screens.MapEditor
         {
             var localPos = transformContainer.ToLocalSpace(mouseScreenPos);
 
-            if(world.DrawRectangle.Contains(localPos))
+            if (world.DrawRectangle.Contains(localPos))
                 return new Vector2I((int)(localPos.X / Chunk.TILE_SIZE), (int)(localPos.Y / Chunk.TILE_SIZE));
 
             return null;

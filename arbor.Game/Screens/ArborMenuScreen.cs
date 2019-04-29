@@ -1,4 +1,5 @@
 ﻿using osu.Framework.Input.Events;
+using osu.Framework.Screens;
 using osuTK.Input;
 
 namespace arbor.Game.Screens
@@ -7,12 +8,12 @@ namespace arbor.Game.Screens
     {
         protected override bool OnKeyDown(KeyDownEvent keyDownEvent)
         {
-            if (keyDownEvent.Repeat || !IsCurrentScreen) return false;
+            if (keyDownEvent.Repeat || !this.IsCurrentScreen()) return false;
 
             switch (keyDownEvent.Key)
             {
                 case Key.Escape:
-                    Exit();
+                    this.Exit();
                     return true;
             }
 

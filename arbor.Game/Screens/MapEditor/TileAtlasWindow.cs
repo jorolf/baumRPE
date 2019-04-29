@@ -6,7 +6,7 @@ using arbor.Game.Graphics.Containers;
 using arbor.Game.Graphics.UserInterface;
 using arbor.Game.Worlds;
 using osu.Framework.Allocation;
-using osu.Framework.Configuration;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -32,12 +32,12 @@ namespace arbor.Game.Screens.MapEditor
         /// <summary>
         /// Return -1 if no tile or a new tile is selected
         /// </summary>
-        public int SelectedTileIndex => tileAtlas.IndexOf(Current);
+        public int SelectedTileIndex => tileAtlas.IndexOf(Current.Value);
 
         public Tile SelectedTile
         {
             set => Current.Value = value;
-            get => Current;
+            get => Current.Value;
         }
 
         public TileAtlas TileAtlas
@@ -76,8 +76,10 @@ namespace arbor.Game.Screens.MapEditor
             TileAtlas = null;
         }
 
-        private void updateSelectedTile(Tile tile)
+        private void updateSelectedTile(ValueChangedEvent<Tile> valueChangedEvent)
         {
+            var tile = valueChangedEvent.NewValue;
+
             if (tileProperties != null)
                 Remove(tileProperties);
 
@@ -189,7 +191,7 @@ namespace arbor.Game.Screens.MapEditor
                     }
                 };
 
-                selectedTile.ValueChanged += sTile => BorderThickness = tile == sTile ? 3 : 0;
+                selectedTile.ValueChanged += e => BorderThickness = tile == e.NewValue ? 3 : 0;
             }
 
             protected override bool OnHover(HoverEvent hoverEvent)
@@ -205,6 +207,12 @@ namespace arbor.Game.Screens.MapEditor
             }
         }
 
+        private static readonly Dictionary<string, Func<Tile>> tile_types = new Dictionary<string, Func<Tile>>
+        {
+            { "Static", () => new StaticTile() },
+            { "Animated", () => new AnimatedTile() }
+        };
+
         private class TileProperties<T> : FillFlowContainer where T : Tile
         {
             protected readonly T Tile;
@@ -214,12 +222,6 @@ namespace arbor.Game.Screens.MapEditor
             private readonly BasicCheckbox solidCheckbox;
             private bool remove;
             protected Story Story;
-
-            private static readonly Dictionary<string, Func<Tile>> tileTypes = new Dictionary<string, Func<Tile>>
-            {
-                { "Static", () => new StaticTile() },
-                { "Animated", () => new AnimatedTile() }
-            };
 
             protected TileProperties(T tile)
             {
@@ -236,13 +238,13 @@ namespace arbor.Game.Screens.MapEditor
                 Add(dropdown = new BasicDropdown<string>
                 {
                     RelativeSizeAxes = Axes.X,
-                    Items = tileTypes.Keys.AsEnumerable()
+                    Items = tile_types.Keys.AsEnumerable()
                 });
                 dropdown.Current.Value = dropdown.Items.First(pair => (typeof(T) == typeof(AnimatedTile) ? "Animated" : "Static") == pair);
-                dropdown.Current.ValueChanged += type =>
+                dropdown.Current.ValueChanged += e =>
                 {
-                    Tile.Solid = solidCheckbox.Current;
-                    ChangeType(tileTypes[type]());
+                    Tile.Solid = solidCheckbox.Current.Value;
+                    ChangeType(tile_types[e.NewValue]());
                 };
 
                 Button saveButton;
@@ -283,7 +285,7 @@ namespace arbor.Game.Screens.MapEditor
 
             protected virtual bool Save()
             {
-                Tile.Solid = solidCheckbox.Current;
+                Tile.Solid = solidCheckbox.Current.Value;
                 Tile.LoadTextures(Atlas.TextureStore);
                 Atlas.Save();
 
@@ -320,9 +322,9 @@ namespace arbor.Game.Screens.MapEditor
 
             protected override bool Save()
             {
-                if (string.IsNullOrWhiteSpace(spriteDropdown.Current)) return false;
+                if (String.IsNullOrWhiteSpace(spriteDropdown.Current.Value)) return false;
 
-                Tile.File = spriteDropdown.Current;
+                Tile.File = spriteDropdown.Current.Value;
                 return base.Save();
             }
         }
@@ -411,17 +413,16 @@ namespace arbor.Game.Screens.MapEditor
                 fileMenus.Remove(currentFile);
                 currentFile.Text.UnbindBindings();
                 spriteDropdown.Current.UnbindBindings();
-                spriteDropdown.Current.Value = string.Empty;
+                spriteDropdown.Current.Value = String.Empty;
                 currentFile = null;
                 list.Items = fileMenus;
             }
 
             private void add()
             {
-                MenuItem item = new MenuItem(spriteDropdown.Current);
+                MenuItem item = new MenuItem(spriteDropdown.Current.Value);
                 item.Action.Value = () => select(item);
                 fileMenus.Insert(fileMenus.IndexOf(currentFile) + 1, item);
-
 
                 list.Items = fileMenus;
                 select(item);
@@ -438,13 +439,14 @@ namespace arbor.Game.Screens.MapEditor
 
             protected override bool Save()
             {
-                if (!int.TryParse(speedTextBox.Current, out int speed)) return false;
+                if (!int.TryParse(speedTextBox.Current.Value, out int speed)) return false;
 
                 var files = new List<string>();
                 foreach (MenuItem item in fileMenus)
                 {
-                    if (string.IsNullOrWhiteSpace(item.Text)) return false;
-                    files.Add(item.Text);
+                    if (string.IsNullOrWhiteSpace(item.Text.Value)) return false;
+
+                    files.Add(item.Text.Value);
                 }
 
                 Tile.Frames = files;

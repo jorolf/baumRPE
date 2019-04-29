@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using arbor.Game.Graphics.UserInterface;
-using osu.Framework.Configuration;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.UserInterface;
@@ -53,7 +53,6 @@ namespace arbor.Game.Screens.MapEditor
                                     new MenuItem("Open World", () => ShowOpenWorld()),
                                     new MenuItem("Create World", () => ShowCreateWorld()),
                                     new MenuItem("Create Tile Atlas", () => ShowCreateTileAtlas()),
-                                    new MenuItem("Reset View", () => ResetView()),
                                     new MenuItem("Save & Exit", () => Exit()),
                                 }
                             },
@@ -77,8 +76,9 @@ namespace arbor.Game.Screens.MapEditor
                             },
                             new MenuItem("View")
                             {
-                                Items = new MenuItem[]
+                                Items = new[]
                                 {
+                                    new MenuItem("Reset View", () => ResetView()),
                                 }
                             },
                         }
@@ -92,8 +92,8 @@ namespace arbor.Game.Screens.MapEditor
                 }
             });
 
-            modeList.Current.ValueChanged += item => CurrentMode.Value = Enum.TryParse(item.Text, out MapEditorScreen.EditorMode mode) ? mode : CurrentMode.Default;
-            CurrentMode.ValueChanged += mode => modeList.Current.Value = modeList.Items.First(item => item.Text == mode.ToString());
+            modeList.Current.ValueChanged += e => CurrentMode.Value = Enum.TryParse(e.NewValue.Text.Value, out MapEditorScreen.EditorMode mode) ? mode : CurrentMode.Default;
+            CurrentMode.ValueChanged += e => modeList.Current.Value = modeList.Items.First(item => item.Text.Value == e.NewValue.ToString());
             CurrentMode.TriggerChange();
         }
 

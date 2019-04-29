@@ -9,7 +9,7 @@ namespace arbor.Game.Tests.Visual
 {
     public class TestCaseWorld : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] {typeof(World), typeof(TileAtlas), typeof(Chunk)};
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(World), typeof(TileAtlas), typeof(Chunk) };
 
         private World world;
 

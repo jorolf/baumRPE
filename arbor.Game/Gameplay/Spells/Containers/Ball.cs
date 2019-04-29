@@ -6,7 +6,8 @@ namespace arbor.Game.Gameplay.Spells.Containers
 {
     public class Ball : SpellContainer
     {
-        public Ball(World world, SpellType type, params ISpellAttribute[] attributes) : base(world, type, attributes)
+        public Ball(World world, SpellType type, params ISpellAttribute[] attributes)
+            : base(world, type, attributes)
         {
             Child = new Circle
             {

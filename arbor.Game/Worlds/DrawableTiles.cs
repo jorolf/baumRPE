@@ -1,14 +1,12 @@
 ﻿using System;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Batches;
 using osu.Framework.Graphics.OpenGL.Vertices;
 using osu.Framework.Graphics.Primitives;
 using osu.Framework.Graphics.Shaders;
 using osu.Framework.Timing;
 using osuTK;
 using osuTK.Graphics.ES11;
-using PrimitiveType = osuTK.Graphics.ES30.PrimitiveType;
 
 namespace arbor.Game.Worlds
 {
@@ -37,76 +35,62 @@ namespace arbor.Game.Worlds
         }
 
         private readonly int?[,] tiles = new int?[Chunk.TILES_PER_CHUNK, Chunk.TILES_PER_CHUNK];
-        public readonly Vector2[,] TilePositions = new Vector2[Chunk.TILES_PER_CHUNK + 1, Chunk.TILES_PER_CHUNK + 1];
-        private readonly DrawableTilesDrawNodeSharedData sharedData = new DrawableTilesDrawNodeSharedData();
 
-        private Shader shader;
+        internal IShader Shader;
 
-        protected override DrawNode CreateDrawNode() => new DrawableTilesDrawNode
-        {
-            TilePositions = TilePositions,
-        };
-
-        protected override void ApplyDrawNode(DrawNode node)
-        {
-            base.ApplyDrawNode(node);
-
-            DrawableTilesDrawNode tilesNode = (DrawableTilesDrawNode) node;
-            for (int i = 0; i < Tiles.GetLength(0) + 1; i++)
-            for (int j = 0; j < Tiles.GetLength(1) + 1; j++)
-            {
-                if(i < Tiles.GetLength(0) && j < Tiles.GetLength(1))
-                    tilesNode.Tiles[i, j] = Tiles[i, j] == null ? new BlankTile() : atlas[Tiles[i, j].Value];
-                tilesNode.TilePositions[i, j] = mapQuad(ScreenSpaceDrawQuad, new Vector2(i * tile_size, j * tile_size));
-            }
-
-            tilesNode.Shader = shader;
-            tilesNode.Clock = Clock;
-            tilesNode.SharedData = sharedData;
-        }
+        protected override DrawNode CreateDrawNode() => new DrawableTilesDrawNode(this);
 
         [BackgroundDependencyLoader]
         private void load(ShaderManager shaders)
         {
-            shader = shaders.Load(VertexShaderDescriptor.TEXTURE_2, FragmentShaderDescriptor.TEXTURE);
+            Shader = shaders.Load(VertexShaderDescriptor.TEXTURE_2, FragmentShaderDescriptor.TEXTURE);
         }
-
-        private const float tile_size = 1f / Chunk.TILES_PER_CHUNK;
-
-        private static Vector2 mapQuad(Quad quad, Vector2 vec)
-        {
-            var top = quad.TopLeft + (quad.TopRight - quad.TopLeft) * vec.X;
-            var bottom = quad.BottomLeft + (quad.BottomRight - quad.BottomLeft) * vec.X;
-
-            return top + (bottom - top) * vec.Y;
-        }
-    }
-
-    public class DrawableTilesDrawNodeSharedData
-    {
-        public LinearBatch<TexturedVertex2D> TileBatch = new LinearBatch<TexturedVertex2D>(Chunk.TILES_PER_CHUNK * Chunk.TILES_PER_CHUNK, 10, PrimitiveType.Triangles);
     }
 
     public class DrawableTilesDrawNode : DrawNode
     {
-        public readonly Tile[,] Tiles = new Tile[Chunk.TILES_PER_CHUNK, Chunk.TILES_PER_CHUNK];
+        private readonly Tile[,] tiles = new Tile[Chunk.TILES_PER_CHUNK, Chunk.TILES_PER_CHUNK];
 
-        public Shader Shader;
-        public IClock Clock;
-        public Vector2[,] TilePositions;
-        public DrawableTilesDrawNodeSharedData SharedData;
+        private IShader shader;
+        private IClock clock;
+        private readonly Vector2[,] tilePositions = new Vector2[Chunk.TILES_PER_CHUNK + 1, Chunk.TILES_PER_CHUNK + 1];
+
+        protected new DrawableTiles Source => (DrawableTiles)base.Source;
+
+        public DrawableTilesDrawNode(DrawableTiles source)
+            : base(source)
+        {
+        }
+
+        public override void ApplyState()
+        {
+            base.ApplyState();
+
+            const float tile_size = 1f / Chunk.TILES_PER_CHUNK;
+
+            for (int i = 0; i < tiles.GetLength(0) + 1; i++)
+            for (int j = 0; j < tiles.GetLength(1) + 1; j++)
+            {
+                if (i < tiles.GetLength(0) && j < tiles.GetLength(1))
+                    tiles[i, j] = Source.Tiles[i, j] == null ? new BlankTile() : Source.Atlas[Source.Tiles[i, j].Value];
+                tilePositions[i, j] = mapQuad(base.Source.ScreenSpaceDrawQuad, new Vector2(i * tile_size, j * tile_size));
+            }
+
+            shader = Source.Shader;
+            clock = base.Source.Clock;
+        }
 
         public override void Draw(Action<TexturedVertex2D> vertexAction)
         {
             base.Draw(vertexAction);
 
-            Shader.Bind();
+            shader.Bind();
             GL.Disable(EnableCap.AlphaTest);
 
-            for (int i = 0; i < Tiles.GetLength(0); i++)
-            for (int j = 0; j < Tiles.GetLength(1); j++)
+            for (int i = 0; i < tiles.GetLength(0); i++)
+            for (int j = 0; j < tiles.GetLength(1); j++)
             {
-                Tiles[i, j].GetTexture(Clock.CurrentTime)?.DrawQuad(new Quad(TilePositions[i, j], TilePositions[i + 1, j], TilePositions[i, j + 1], TilePositions[i + 1, j + 1]), DrawColourInfo.Colour, vertexAction: vertexAction);
+                tiles[i, j].GetTexture(clock.CurrentTime)?.DrawQuad(new Quad(tilePositions[i, j], tilePositions[i + 1, j], tilePositions[i, j + 1], tilePositions[i + 1, j + 1]), DrawColourInfo.Colour, vertexAction: vertexAction);
             }
 
             /*Texture.WhitePixel.TextureGL.Bind();
@@ -151,7 +135,15 @@ namespace arbor.Game.Worlds
             }*/
 
             GL.Enable(EnableCap.AlphaTest);
-            Shader.Unbind();
+            shader.Unbind();
+        }
+
+        private static Vector2 mapQuad(Quad quad, Vector2 vec)
+        {
+            var top = quad.TopLeft + (quad.TopRight - quad.TopLeft) * vec.X;
+            var bottom = quad.BottomLeft + (quad.BottomRight - quad.BottomLeft) * vec.X;
+
+            return top + (bottom - top) * vec.Y;
         }
     }
 }

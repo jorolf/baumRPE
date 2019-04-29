@@ -20,7 +20,8 @@ namespace arbor.Game.Gameplay.Items.Weapons.BaseWeapons
         /// </summary>
         public Easing SwingEasing { get; } = Easing.None;
 
-        protected Sword(Character character) : base(character)
+        protected Sword(Character character)
+            : base(character)
         {
         }
 

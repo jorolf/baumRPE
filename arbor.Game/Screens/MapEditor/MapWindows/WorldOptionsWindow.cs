@@ -45,12 +45,13 @@ namespace arbor.Game.Screens.MapEditor.MapWindows
 
         protected override Action<World> SubmitParam => world =>
         {
-            world.AtlasPath = worldDropdown.Current;
+            world.AtlasPath = worldDropdown.Current.Value;
         };
 
         protected override bool ValuesValid() => true;
 
         protected override void ResetValues()
-        { }
+        {
+        }
     }
 }

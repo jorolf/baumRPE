@@ -11,7 +11,7 @@ namespace arbor.Game.Gameplay.Items
     {
         public Inventory Inventory
         {
-            get { return inventory; }
+            get => inventory;
             set
             {
                 if (inventory != value)
@@ -54,7 +54,7 @@ namespace arbor.Game.Gameplay.Items
                 {
                     Anchor = Anchor.TopCentre,
                     Origin = Anchor.TopCentre,
-                    TextSize = 10,
+                    Font = FontUsage.Default.With(size: 10),
                     Text = "Inventory"
                 },
                 new ScrollContainer

@@ -31,7 +31,7 @@ namespace arbor.Game.Screens.MapEditor
                 content = new Container
                 {
                     AutoSizeAxes = Axes.Both,
-                    Padding = new MarginPadding {Bottom = submit_btn_height + 3}
+                    Padding = new MarginPadding { Bottom = submit_btn_height + 3 }
                 },
                 submitBtn = new Button
                 {
@@ -88,7 +88,7 @@ namespace arbor.Game.Screens.MapEditor
                     nameSprite = new SpriteText
                     {
                         Text = name,
-                        TextSize = 20,
+                        Font = FontUsage.Default.With(size: 20),
                         Anchor = Anchor.CentreLeft,
                         Origin = Anchor.CentreLeft,
                     },

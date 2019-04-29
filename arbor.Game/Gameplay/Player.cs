@@ -74,7 +74,7 @@ namespace arbor.Game.Gameplay
 
             Vector2 playerPosition = Position;
 
-            playerPosition += velocity * (float) Clock.ElapsedFrameTime * (shiftPressed ? 2 : 1);
+            playerPosition += velocity * (float)Clock.ElapsedFrameTime * (shiftPressed ? 2 : 1);
 
             if (PlayerBounds != default(RectangleF))
             {
@@ -88,7 +88,7 @@ namespace arbor.Game.Gameplay
         private float mousePosAngle(Vector2 mousePos, Vector2 playerPos)
         {
             //Returns a Radian
-            float angle = (float) Math.Atan2(mousePos.Y - playerPos.Y, mousePos.X - playerPos.X);
+            float angle = (float)Math.Atan2(mousePos.Y - playerPos.Y, mousePos.X - playerPos.X);
             angle = MathHelper.RadiansToDegrees(angle) + 90;
             return angle;
         }
@@ -97,6 +97,7 @@ namespace arbor.Game.Gameplay
         {
             if (keyDownEvent.Repeat)
                 return base.OnKeyDown(keyDownEvent);
+
             shiftPressed = keyDownEvent.ShiftPressed;
             switch (keyDownEvent.Key)
             {
@@ -150,7 +151,8 @@ namespace arbor.Game.Gameplay
         }
 
         protected override bool OnMouseDown(MouseDownEvent mouseDownEvent)
-        {/*
+        {
+            /*
             if (args.Button == MouseButton.Right)
                 World.Add(new Ball(World, new Fire(), new Velocity { SpellVelocity = (ToSpaceOfOtherDrawable(state.Mouse.Position, this) - Position).Normalized() / 4 }, new Duration { SpellDuration = 1000 })
                 {

@@ -11,7 +11,7 @@ namespace arbor.Game.Tests.Visual
 {
     public class TestCaseTileAtlasWindow : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] {typeof(TileAtlasWindow), typeof(DrawableTile)};
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(TileAtlasWindow), typeof(DrawableTile) };
 
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent)
         {

@@ -5,6 +5,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.Graphics.UserInterface;
+using osu.Framework.Screens;
 using osuTK;
 using osuTK.Graphics;
 
@@ -20,7 +21,7 @@ namespace arbor.Game.Screens
         [BackgroundDependencyLoader]
         private void load(TextureStore textures, ArborGame game, Story story)
         {
-            Children = new Drawable[]
+            InternalChildren = new Drawable[]
             {
                 new Container
                 {
@@ -45,7 +46,7 @@ namespace arbor.Game.Screens
                             Text = "Load Test World",
                             CornerRadius = 8,
                             Size = new Vector2(200, 100),
-                            Action = () => Push(new GameScreen()),
+                            Action = () => this.Push(new GameScreen()),
                             BackgroundColour = Color4.Gray,
                         },
                         settings = new SettingsOverlay
@@ -70,7 +71,7 @@ namespace arbor.Game.Screens
                             Colour = Color4.Wheat,
                             Anchor = Anchor.TopLeft,
                             Origin = Anchor.TopLeft,
-                            TextSize = 60,
+                            Font = FontUsage.Default.With(size: 60),
                             Text = $"Welcome to the \"{story.Name}\" game!"
                         },
                     }
@@ -78,7 +79,7 @@ namespace arbor.Game.Screens
             };
 
             if (game.StoryStorage != null)
-                Add(new Button
+                AddInternal(new Button
                 {
                     Position = new Vector2(10, 0),
                     Anchor = Anchor.CentreLeft,
@@ -86,7 +87,7 @@ namespace arbor.Game.Screens
                     Text = "Load Editor",
                     CornerRadius = 8,
                     Size = new Vector2(200, 100),
-                    Action = () => Push(new MapEditorScreen()),
+                    Action = () => this.Push(new MapEditorScreen()),
                     BackgroundColour = Color4.Gray,
                 });
         }

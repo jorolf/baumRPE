@@ -4,6 +4,5 @@ namespace arbor.Game.Screens
 {
     public class ArborScreen : Screen
     {
-
     }
 }

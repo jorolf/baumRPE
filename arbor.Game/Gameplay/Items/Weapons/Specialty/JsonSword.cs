@@ -8,7 +8,8 @@ namespace arbor.Game.Gameplay.Items.Weapons.Specialty
     {
         //private JsonStore jsonStore;
 
-        public JsonSword(Character character) : base(character)
+        public JsonSword(Character character)
+            : base(character)
         {
         }
 

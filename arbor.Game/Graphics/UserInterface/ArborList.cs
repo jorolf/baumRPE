@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using osu.Framework.Configuration;
+using osu.Framework.Bindables;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Input.Events;
@@ -15,10 +15,11 @@ namespace arbor.Game.Graphics.UserInterface
         public Color4 SelectedColour = Color4.SlateGray;
         public Color4 UnselectedColour = Color4.DarkSlateGray;
 
-        public ArborList(Direction direction) : base(direction, true)
+        public ArborList(Direction direction)
+            : base(direction, true)
         {
-            Current.ValueChanged += item => System.Diagnostics.Debug.WriteLine($"{item} was selected");
-            Current.ValueChanged += item => select(Children.FirstOrDefault(menuItem => menuItem.Item == item) ?? selectedItem);
+            Current.ValueChanged += e => System.Diagnostics.Debug.WriteLine($"{e.NewValue} was selected");
+            Current.ValueChanged += e => select(Children.FirstOrDefault(menuItem => menuItem.Item == e.NewValue) ?? selectedItem);
         }
 
         protected override DrawableMenuItem CreateDrawableMenuItem(MenuItem item)
@@ -56,7 +57,8 @@ namespace arbor.Game.Graphics.UserInterface
         {
             public Action Clicked;
 
-            public ArborListItem(MenuItem item) : base(item)
+            public ArborListItem(MenuItem item)
+                : base(item)
             {
             }
 

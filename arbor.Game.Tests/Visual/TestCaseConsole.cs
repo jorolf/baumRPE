@@ -12,7 +12,7 @@ namespace arbor.Game.Tests.Visual
     {
         private readonly ConsoleCommand[] commands = new ConsoleCommand[2];
 
-        public override IReadOnlyList<System.Type> RequiredTypes => new[] {typeof(Console)};
+        public override IReadOnlyList<System.Type> RequiredTypes => new[] { typeof(Console) };
 
         public TestCaseConsole()
         {

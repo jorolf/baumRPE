@@ -2,23 +2,12 @@
 
 namespace arbor.Game.IO
 {
-    public class StoryStorage : DesktopStorage
+    public class StoryStorage : NativeStorage
     {
-        private readonly string basePath;
-
-        private static string staticBasePath;
-
-        public StoryStorage(string basePath, GameHost host) : base(setBasePath(basePath), host)
+        public StoryStorage(string basePath, GameHost host)
+            : base(string.Empty, host)
         {
-            this.basePath = basePath;
-        }
-
-        protected override string LocateBasePath() => basePath ?? staticBasePath;
-
-        private static string setBasePath(string basePath)
-        {
-            staticBasePath = basePath;
-            return string.Empty;
+            BasePath = basePath;
         }
     }
 }

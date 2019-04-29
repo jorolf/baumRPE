@@ -51,7 +51,7 @@ namespace arbor.Game.Screens.MapEditor.MapWindows
 
         protected override Action SubmitParam => () =>
         {
-            story.SpawnWorldFile = spawnWorldDropdown.Current;
+            story.SpawnWorldFile = spawnWorldDropdown.Current.Value;
             story.Name = storyNameTextBox.Text;
         };
 

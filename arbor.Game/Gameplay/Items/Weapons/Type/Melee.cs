@@ -2,7 +2,8 @@
 {
     public abstract class Melee : Weapon
     {
-        protected Melee(Character character) : base(character)
+        protected Melee(Character character)
+            : base(character)
         {
         }
 
