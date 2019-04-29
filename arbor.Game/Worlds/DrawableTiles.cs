@@ -93,47 +93,6 @@ namespace arbor.Game.Worlds
                 tiles[i, j].GetTexture(clock.CurrentTime)?.DrawQuad(new Quad(tilePositions[i, j], tilePositions[i + 1, j], tilePositions[i, j + 1], tilePositions[i + 1, j + 1]), DrawColourInfo.Colour, vertexAction: vertexAction);
             }
 
-            /*Texture.WhitePixel.TextureGL.Bind();
-
-            for (int i = 0; i < Tiles.GetLength(0); i++)
-            for (int j = 0; j < Tiles.GetLength(1); j++)
-            {
-
-                //Tiles[i, j].GetTexture(Clock.CurrentTime).TextureGL.WrapMode = TextureWrapMode.ClampToEdge;
-                //Tiles[i, j].GetTexture(Clock.CurrentTime).TextureGL.Bind();
-
-                SharedData.TileBatch.Add(new TexturedVertex2D
-                {
-                    Position = TilePositions[i, j],
-                    TexturePosition = Vector2.Zero,
-                });
-                SharedData.TileBatch.Add(new TexturedVertex2D
-                {
-                    Position = TilePositions[i + 1, j],
-                    TexturePosition = Vector2.UnitX
-                });
-                SharedData.TileBatch.Add(new TexturedVertex2D
-                {
-                    Position = TilePositions[i, j + 1],
-                    TexturePosition = Vector2.UnitY
-                });
-                SharedData.TileBatch.Add(new TexturedVertex2D
-                {
-                    Position = TilePositions[i + 1, j + 1],
-                    TexturePosition = Vector2.One
-                });
-                SharedData.TileBatch.Add(new TexturedVertex2D
-                {
-                    Position = TilePositions[i, j + 1],
-                    TexturePosition = Vector2.UnitY
-                });
-                SharedData.TileBatch.Add(new TexturedVertex2D
-                {
-                    Position = TilePositions[i + 1, j],
-                    TexturePosition = Vector2.UnitX
-                });
-            }*/
-
             GL.Enable(EnableCap.AlphaTest);
             shader.Unbind();
         }
