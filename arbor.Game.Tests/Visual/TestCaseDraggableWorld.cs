@@ -8,16 +8,16 @@ using osu.Framework.Testing;
 
 namespace arbor.Game.Tests.Visual
 {
-    public class TestCaseDragableWorld : TestCase
+    public class TestCaseDraggableWorld : TestCase
     {
-        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(DragableWorld), typeof(ArborDragContainer) };
+        public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(DraggableWorld), typeof(ArborDragContainer) };
 
-        public TestCaseDragableWorld()
+        public TestCaseDraggableWorld()
         {
             World world = new World();
             world.ResizeWorld(1, 1);
 
-            Child = new DragableWorld
+            Child = new DraggableWorld
             {
                 Anchor = Anchor.Centre,
                 Origin = Anchor.Centre,

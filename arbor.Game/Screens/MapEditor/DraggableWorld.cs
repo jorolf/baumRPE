@@ -10,7 +10,7 @@ using osuTK.Input;
 
 namespace arbor.Game.Screens.MapEditor
 {
-    public class DragableWorld : CompositeDrawable
+    public class DraggableWorld : CompositeDrawable
     {
         private readonly Container transformContainer;
         private readonly Box highlightTile;
@@ -37,7 +37,7 @@ namespace arbor.Game.Screens.MapEditor
             }
         }
 
-        public DragableWorld()
+        public DraggableWorld()
         {
             InternalChild = transformContainer = new Container
             {

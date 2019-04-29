@@ -27,7 +27,7 @@ namespace arbor.Game.Screens
     {
         private Storage storage;
         private Story story;
-        private DragableWorld worldContainer;
+        private DraggableWorld worldContainer;
         private TileAtlasWindow tileAtlasWindow;
 
         private World worldField;
@@ -69,7 +69,7 @@ namespace arbor.Game.Screens
                     RelativeSizeAxes = Axes.Both,
                     Colour = Color4.Gray,
                 },
-                worldContainer = new DragableWorld
+                worldContainer = new DraggableWorld
                 {
                     RelativeSizeAxes = Axes.Both,
                 }
