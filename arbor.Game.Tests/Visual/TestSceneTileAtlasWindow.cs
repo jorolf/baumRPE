@@ -9,7 +9,7 @@ using osu.Framework.Testing;
 
 namespace arbor.Game.Tests.Visual
 {
-    public class TestCaseTileAtlasWindow : TestCase
+    public class TestSceneTileAtlasWindow : TestScene
     {
         public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(TileAtlasWindow), typeof(DrawableTile) };
 

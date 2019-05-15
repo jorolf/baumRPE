@@ -11,12 +11,12 @@ using osuTK.Graphics;
 
 namespace arbor.Game.Tests.Visual
 {
-    public class TestCaseWindow : TestCase
+    public class TestSceneWindow : TestScene
     {
         public override IReadOnlyList<Type> RequiredTypes => new[]
             { typeof(ArborWindow), typeof(NewWorldWindow), typeof(NewTileAtlasWindow), typeof(MapWindow<>) };
 
-        public TestCaseWindow()
+        public TestSceneWindow()
         {
             ArborWindow worldWindow;
             NewTileAtlasWindow atlasWindow;

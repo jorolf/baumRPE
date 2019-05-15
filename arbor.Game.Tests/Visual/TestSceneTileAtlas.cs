@@ -10,7 +10,7 @@ using osuTK;
 
 namespace arbor.Game.Tests.Visual
 {
-    public class TestCaseTileAtlas : TestCase
+    public class TestSceneTileAtlas : TestScene
     {
         public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(TileAtlas), typeof(DrawableTile) };
 

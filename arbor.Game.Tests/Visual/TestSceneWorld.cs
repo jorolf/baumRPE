@@ -7,7 +7,7 @@ using osu.Framework.Testing;
 
 namespace arbor.Game.Tests.Visual
 {
-    public class TestCaseWorld : TestCase
+    public class TestSceneWorld : TestScene
     {
         public override IReadOnlyList<Type> RequiredTypes => new[] { typeof(World), typeof(TileAtlas), typeof(Chunk) };
 

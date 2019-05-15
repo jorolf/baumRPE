@@ -199,6 +199,7 @@ namespace arbor.Game.Screens
                     }
                     else
                         return base.OnMouseDown(mouseDownEvent);
+
                 default:
                     return base.OnMouseDown(mouseDownEvent);
             }
