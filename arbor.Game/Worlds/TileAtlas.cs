@@ -8,6 +8,7 @@ using osu.Framework.Graphics.Textures;
 
 namespace arbor.Game.Worlds
 {
+    [JsonArray(ItemTypeNameHandling = TypeNameHandling.Auto)]
     public class TileAtlas : Collection<Tile>
     {
         public readonly TextureStore TextureStore;
@@ -22,7 +23,7 @@ namespace arbor.Game.Worlds
 
             try
             {
-                jsonStore.Populate(filename, this, true);
+                jsonStore.Populate(filename, this);
             }
             catch (FileNotFoundException)
             {
@@ -41,7 +42,7 @@ namespace arbor.Game.Worlds
             item.LoadTextures(TextureStore);
         }
 
-        public void Save() => jsonStore.Serialize(Filename, this, true);
+        public void Save() => jsonStore.Serialize(Filename, this);
     }
 
     public abstract class Tile

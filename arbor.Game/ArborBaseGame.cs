@@ -5,6 +5,7 @@ using arbor.Game.Overlays;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
+using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Textures;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
@@ -52,15 +53,19 @@ namespace arbor.Game
 
             base.Content.Add(inputManager = new GlobalKeyBindingInputManager(Host.Storage)
             {
-                Child = content = new Container
+                Child = new BasicContextMenuContainer
                 {
                     RelativeSizeAxes = Axes.Both,
-                    Children = new Drawable[]
+                    Child = content = new Container
                     {
-                        new Console
+                        RelativeSizeAxes = Axes.Both,
+                        Children = new Drawable[]
                         {
-                            Depth = -1,
-                            RelativeSizeAxes = Axes.Both
+                            new Console
+                            {
+                                Depth = -1,
+                                RelativeSizeAxes = Axes.Both
+                            }
                         }
                     }
                 }

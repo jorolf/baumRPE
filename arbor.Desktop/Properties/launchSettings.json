@@ -1,11 +1,11 @@
 {
   "profiles": {
     "Game": {
-      "commandName": "Project"
+      "commandName": "Project",
     },
     "Editor": {
       "commandName": "Project",
-      "commandLineArgs": "--workspace ..\\..\\..\\..\\arbor.Game.Story\\"
+      "commandLineArgs": "--workspace $(SolutionDir)\\arbor.Game.Story\\"
     }
   }
 }

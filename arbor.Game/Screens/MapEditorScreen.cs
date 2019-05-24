@@ -191,7 +191,7 @@ namespace arbor.Game.Screens
                         var gameObject = chunk.GetObjectAt(objectPos);
                         if (gameObject == null)
                         {
-                            gameObject = new GameObject { WorldPosition = objectPos };
+                            gameObject = new GameObject { WorldPosition = objectPos, TileSize = Vector2.One };
                             chunk.AddObject(gameObject);
                         }
 

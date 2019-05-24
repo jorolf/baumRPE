@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
+using osuTK;
 
 namespace arbor.Game.IO
 {
@@ -9,7 +12,13 @@ namespace arbor.Game.IO
 
         protected JsonStore()
         {
-            settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+            settings = new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter>
+                {
+                    new VectorConverter()
+                }
+            };
         }
 
         /// <summary>
@@ -17,16 +26,15 @@ namespace arbor.Game.IO
         /// </summary>
         /// <typeparam name="T">The object that should be populated</typeparam>
         /// <param name="filename">The file to load the JSON string from</param>
-        /// <param name="useType">Use the "$type" member for the deserialization</param>
         /// <returns></returns>
-        public T Deserialize<T>(string filename, bool useType = false)
+        public T Deserialize<T>(string filename)
         {
             var stream = GetFileStream(filename, FileAccess.Read);
             if (stream == null)
                 throw new FileNotFoundException($"The file {filename} does not exist!", filename);
 
             using (var reader = new StreamReader(stream))
-                return JsonConvert.DeserializeObject<T>(reader.ReadToEnd(), useType ? settings : null);
+                return JsonConvert.DeserializeObject<T>(reader.ReadToEnd(), settings);
         }
 
         /// <summary>
@@ -34,11 +42,10 @@ namespace arbor.Game.IO
         /// </summary>
         /// <param name="filename">Location of the saved file</param>
         /// <param name="obj">The serialization object</param>
-        /// <param name="saveType">Save a "$type" member for deserialization</param>
-        public void Serialize(string filename, object obj, bool saveType = false)
+        public void Serialize(string filename, object obj)
         {
             using (var writer = new StreamWriter(GetFileStream(filename, FileAccess.Write)))
-                writer.Write(JsonConvert.SerializeObject(obj, saveType ? settings : null));
+                writer.Write(JsonConvert.SerializeObject(obj, settings));
         }
 
         /// <summary>
@@ -58,5 +65,27 @@ namespace arbor.Game.IO
         }
 
         protected abstract Stream GetFileStream(string filename, FileAccess fileAccess);
+
+        public class VectorConverter : JsonConverter<Vector2>
+        {
+            public override void WriteJson(JsonWriter writer, Vector2 value, JsonSerializer serializer)
+            {
+                serializer.Serialize(writer, new[] { value.X, value.Y });
+            }
+
+            public override Vector2 ReadJson(JsonReader reader, Type objectType, Vector2 existingValue, bool hasExistingValue, JsonSerializer serializer)
+            {
+                var floats = serializer.Deserialize<float[]>(reader);
+                switch (floats.Length)
+                {
+                    case 0:
+                        return Vector2.Zero;
+                    case 1:
+                        return new Vector2(floats[0]);
+                    default:
+                        return new Vector2(floats[0], floats[1]);
+                }
+            }
+        }
     }
 }
