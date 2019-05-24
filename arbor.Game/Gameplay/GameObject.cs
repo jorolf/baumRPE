@@ -1,5 +1,4 @@
 ﻿using System;
-using arbor.Game.IO;
 using arbor.Game.Worlds;
 using Newtonsoft.Json;
 using osu.Framework.Graphics;
@@ -19,7 +18,6 @@ namespace arbor.Game.Gameplay
         public bool Solid { get; set; }
 
         [JsonProperty("position")]
-        [JsonConverter(typeof(JsonStore.VectorConverter))]
         private Vector2 worldPositionJson
         {
             get => roundToPlace(WorldPosition);
@@ -36,7 +34,6 @@ namespace arbor.Game.Gameplay
         }
 
         [JsonProperty("size")]
-        [JsonConverter(typeof(JsonStore.VectorConverter))]
         private Vector2 tileSizeJson
         {
             get => roundToPlace(TileSize);
