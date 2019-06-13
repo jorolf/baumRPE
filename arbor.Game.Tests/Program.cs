@@ -8,7 +8,7 @@ namespace arbor.Game.Tests
     {
         public static void Main(string[] args)
         {
-            using (GameHost host = Host.GetSuitableHost("Arbor Tests"))
+            using (GameHost host = Host.GetSuitableHost("Arbor"))
             {
                 host.Run(new ArborTests());
             }

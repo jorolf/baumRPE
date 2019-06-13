@@ -155,6 +155,7 @@ namespace arbor.Game.Screens
                 {
                     case EditorMode.Tiles:
                         tileAtlasWindow.Show();
+                        
                         break;
                     case EditorMode.Objects:
                         tileAtlasWindow.Hide();

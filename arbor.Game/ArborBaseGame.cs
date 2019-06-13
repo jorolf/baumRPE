@@ -1,7 +1,9 @@
-﻿using arbor.Game.Config;
+﻿using System;
+using arbor.Game.Config;
 using arbor.Game.Input;
 using arbor.Game.IO;
 using arbor.Game.Overlays;
+using arbor.Game.Overlays.Console;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -12,6 +14,7 @@ using osu.Framework.Platform;
 
 namespace arbor.Game
 {
+    [Cached]
     public class ArborBaseGame : osu.Framework.Game
     {
         private ArborConfigManager localConfig;
@@ -23,6 +26,12 @@ namespace arbor.Game
 
         private DependencyContainer dependencies;
 
+        [Cached]
+        private ConsoleCommandManager consoleManager = new ConsoleCommandManager();
+
+        [Cached]
+        private ConsoleOverlay consoleOverlay = new ConsoleOverlay();
+
         protected override IReadOnlyDependencyContainer CreateChildDependencies(IReadOnlyDependencyContainer parent) =>
             dependencies = new DependencyContainer(base.CreateChildDependencies(parent));
 
@@ -31,7 +40,7 @@ namespace arbor.Game
         {
             Resources.AddStore(new DllResourceStore("arbor.Game.Resources.dll"));
 
-            dependencies.Cache(this);
+            //dependencies.Cache(this);
             dependencies.Cache(localConfig);
             dependencies.CacheAs<JsonStore>(new ResourceJsonStore(Resources));
             dependencies.Cache(new TileStore(new TextureLoaderStore(new NamespacedResourceStore<byte[]>(Resources, "Textures"))));
@@ -61,11 +70,11 @@ namespace arbor.Game
                         RelativeSizeAxes = Axes.Both,
                         Children = new Drawable[]
                         {
-                            new Console
+                            consoleOverlay.With(d =>
                             {
-                                Depth = -1,
-                                RelativeSizeAxes = Axes.Both
-                            }
+                                d.Depth = -1;
+                                d.RelativeSizeAxes = Axes.Both;
+                            })
                         }
                     }
                 }
@@ -79,5 +88,19 @@ namespace arbor.Game
 
             base.Dispose(isDisposing);
         }
+
+        public bool OnPressed(ArborKeyBindings action)
+        {
+            switch (action)
+            {
+                case ArborKeyBindings.Console:
+                    consoleOverlay.ToggleVisibility();
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool OnReleased(ArborKeyBindings action) => false;
     }
 }

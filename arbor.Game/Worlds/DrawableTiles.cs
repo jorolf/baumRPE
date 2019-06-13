@@ -90,7 +90,9 @@ namespace arbor.Game.Worlds
             for (int i = 0; i < tiles.GetLength(0); i++)
             for (int j = 0; j < tiles.GetLength(1); j++)
             {
-                tiles[i, j].GetTexture(clock.CurrentTime)?.DrawQuad(new Quad(tilePositions[i, j], tilePositions[i + 1, j], tilePositions[i, j + 1], tilePositions[i + 1, j + 1]), DrawColourInfo.Colour, vertexAction: vertexAction);
+                var texture = tiles[i, j].GetTexture(clock.CurrentTime);
+                if (texture != null)
+                    DrawQuad(texture, new Quad(tilePositions[i, j], tilePositions[i + 1, j], tilePositions[i, j + 1], tilePositions[i + 1, j + 1]), DrawColourInfo.Colour, vertexAction: vertexAction);
             }
 
             GL.Enable(EnableCap.AlphaTest);

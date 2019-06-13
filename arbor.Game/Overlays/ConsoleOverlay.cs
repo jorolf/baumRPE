@@ -1,52 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using arbor.Game.Input;
+﻿using arbor.Game.Overlays.Console;
+using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Input.Bindings;
 using osu.Framework.Logging;
 using osuTK;
 using osuTK.Graphics;
 
 namespace arbor.Game.Overlays
 {
-    public class Console : OverlayContainer, IKeyBindingHandler<ArborKeyBindings>
+    public class ConsoleOverlay : OverlayContainer
     {
-        #region static
-
-        public const string CONSOLE_LOG_TYPE = "console";
-
-        private static readonly List<WeakReference> commands = new List<WeakReference>();
-
-        public static void RegisterCommand(ConsoleCommand command)
-        {
-            commands.Add(new WeakReference(command));
-        }
-
-        public static void ExecuteCommand(string command)
-        {
-            Logger.Log(command, CONSOLE_LOG_TYPE);
-            commands.RemoveAll(reference => !reference.IsAlive);
-            foreach (var consoleCommand in commands.Select(reference => reference.Target).OfType<ConsoleCommand>().Where(consoleCommand => command.StartsWith(consoleCommand.CommandName)))
-            {
-                try
-                {
-                    consoleCommand.CommandAction(command.Substring(consoleCommand.CommandName.Length).Trim());
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e, $"An Exception occurered when trying to execute command \"{consoleCommand.CommandName}\"", CONSOLE_LOG_TYPE);
-                }
-            }
-        }
-
-        #endregion
-
-        #region overlay
-
         private readonly TextFlowContainer consoleLog;
 
         private const float height = 400;
@@ -56,11 +21,12 @@ namespace arbor.Game.Overlays
 
         protected override Container<Drawable> Content => content;
 
-        public override bool HandleNonPositionalInput => true;
-
         protected override bool BlockPositionalInput => false;
 
-        public Console()
+        [Resolved]
+        private ConsoleCommandManager consoleManager { get; set; }
+
+        public ConsoleOverlay()
         {
             TextBox input;
 
@@ -112,7 +78,7 @@ namespace arbor.Game.Overlays
 
             input.OnCommit += (sender, text) =>
             {
-                ExecuteCommand(sender.Text);
+                consoleManager.ExecuteCommand(sender.Text);
                 sender.Text = string.Empty;
             };
 
@@ -121,7 +87,7 @@ namespace arbor.Game.Overlays
 
         private void log(LogEntry logEntry)
         {
-            if (logEntry.Level < LogLevel.Important && logEntry.LoggerName != CONSOLE_LOG_TYPE)
+            if (logEntry.Level < LogLevel.Important && logEntry.LoggerName != ConsoleCommandManager.CONSOLE_LOG_TYPE)
                 return;
 
             Color4 color;
@@ -156,33 +122,5 @@ namespace arbor.Game.Overlays
             content.FadeOut(toggle_time)
                    .MoveTo(new Vector2(0, -height), toggle_time);
         }
-
-        public bool OnPressed(ArborKeyBindings action)
-        {
-            if (action == ArborKeyBindings.Console)
-            {
-                ToggleVisibility();
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool OnReleased(ArborKeyBindings action) => false;
-
-        #endregion
-    }
-
-    public class ConsoleCommand
-    {
-        public ConsoleCommand(string commandName, Action<string> commandAction)
-        {
-            CommandAction = commandAction;
-            CommandName = commandName;
-        }
-
-        public Action<string> CommandAction { get; set; }
-
-        public string CommandName { get; set; }
     }
 }

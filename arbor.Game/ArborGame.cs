@@ -1,18 +1,20 @@
 ﻿using System;
 using System.IO;
+using arbor.Game.Input;
 using arbor.Game.IO;
 using arbor.Game.Screens;
 using Newtonsoft.Json;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Input.Bindings;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
 using osu.Framework.Screens;
 
 namespace arbor.Game
 {
-    public class ArborGame : ArborBaseGame
+    public class ArborGame : ArborBaseGame, IKeyBindingHandler<ArborKeyBindings>
     {
         private readonly string storyPath;
         public readonly IResourceStore<byte[]> StoryResources;
