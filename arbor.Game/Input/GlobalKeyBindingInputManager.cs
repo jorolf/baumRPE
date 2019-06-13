@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using osu.Framework.Allocation;
+using osu.Framework.Graphics;
 using osu.Framework.Input;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Platform;
@@ -10,45 +12,51 @@ namespace arbor.Game.Input
 {
     public class GlobalKeyBindingInputManager : KeyBindingContainer<ArborKeyBindings>, IHandleGlobalInput
     {
-        private readonly Storage storage;
+        [Resolved]
+        private Storage storage { get; set; }
+
+        [Resolved]
+        private ArborBaseGame baseGame { get; set; }
+
         private const string keybinding_filename = "keybindings.txt";
+
+        private static readonly Dictionary<ArborKeyBindings, InputKey> default_key_bindings = new Dictionary<ArborKeyBindings, InputKey>
+        {
+            { ArborKeyBindings.Console, InputKey.F3 }
+        };
+
+        public GlobalKeyBindingInputManager()
+            : base(SimultaneousBindingMode.All)
+        {
+        }
 
         public override IEnumerable<KeyBinding> DefaultKeyBindings
         {
             get
             {
-                if (!storage.Exists(keybinding_filename))
-                    return new[]
-                    {
-                        new KeyBinding(InputKey.Tilde, ArborKeyBindings.Console)
-                    };
+                var bindings = new Dictionary<ArborKeyBindings, InputKey>(default_key_bindings);
 
                 using (var reader = new StreamReader(storage.GetStream(keybinding_filename)))
                 {
-                    var list = new List<KeyBinding>();
-                    while (!reader.EndOfStream)
+                    string[] binding;
+                    while ((binding = reader.ReadLine()?.Split('=')) != null)
                     {
-                        // ReSharper disable once PossibleNullReferenceException
-                        var binding = reader.ReadLine().Split('=');
-                        list.Add(new KeyBinding((InputKey)Enum.Parse(typeof(InputKey), binding[1]), Enum.Parse(typeof(ArborKeyBindings), binding[0])));
+                        if (Enum.TryParse(binding[0], out ArborKeyBindings keyBindings) && Enum.TryParse(binding[1], out InputKey inputKey))
+                            bindings[keyBindings] = inputKey;
                     }
-
-                    return list;
                 }
+
+                return bindings.Select(pair => new KeyBinding(pair.Value, pair.Key));
             }
         }
+
+        protected override IEnumerable<Drawable> KeyBindingInputQueue => base.KeyBindingInputQueue.Prepend(baseGame);
 
         public void SaveKeyBindings()
         {
             using (var reader = new StreamWriter(storage.GetStream(keybinding_filename, FileAccess.Write)))
                 foreach (var binding in KeyBindings)
                     reader.WriteLine(binding.Action + "=" + binding.KeyCombination.Keys.First());
-        }
-
-        public GlobalKeyBindingInputManager(Storage storage)
-            : base(SimultaneousBindingMode.All)
-        {
-            this.storage = storage;
         }
     }
 

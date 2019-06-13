@@ -1,5 +1,4 @@
-﻿using System;
-using arbor.Game.Config;
+﻿using arbor.Game.Config;
 using arbor.Game.Input;
 using arbor.Game.IO;
 using arbor.Game.Overlays;
@@ -9,13 +8,14 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Input.Bindings;
 using osu.Framework.IO.Stores;
 using osu.Framework.Platform;
 
 namespace arbor.Game
 {
     [Cached]
-    public class ArborBaseGame : osu.Framework.Game
+    public class ArborBaseGame : osu.Framework.Game, IKeyBindingHandler<ArborKeyBindings>
     {
         private ArborConfigManager localConfig;
 
@@ -40,7 +40,8 @@ namespace arbor.Game
         {
             Resources.AddStore(new DllResourceStore("arbor.Game.Resources.dll"));
 
-            //dependencies.Cache(this);
+            dependencies.Cache(this);
+            dependencies.CacheAs(this);
             dependencies.Cache(localConfig);
             dependencies.CacheAs<JsonStore>(new ResourceJsonStore(Resources));
             dependencies.Cache(new TileStore(new TextureLoaderStore(new NamespacedResourceStore<byte[]>(Resources, "Textures"))));
@@ -60,7 +61,7 @@ namespace arbor.Game
         {
             base.LoadComplete();
 
-            base.Content.Add(inputManager = new GlobalKeyBindingInputManager(Host.Storage)
+            base.Content.Add(inputManager = new GlobalKeyBindingInputManager
             {
                 Child = new BasicContextMenuContainer
                 {
